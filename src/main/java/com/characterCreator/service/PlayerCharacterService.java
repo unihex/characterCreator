@@ -12,7 +12,7 @@ import com.characterCreator.domain.PlayerCharacter;
 public interface PlayerCharacterService {
 	
 	List<PlayerCharacter> findAllPlayerCharacters();
-	PlayerCharacter findPlayCharacterById(long playerCharacterId);
+	PlayerCharacter findPlayerCharacterById(long playerCharacterId);
 	
 	PlayerCharacter savePlayerCharacter(PlayerCharacter playerCharacter);
 	List<PlayerCharacter> savePlayerCharacterList(List<PlayerCharacter> playerCharacterList);

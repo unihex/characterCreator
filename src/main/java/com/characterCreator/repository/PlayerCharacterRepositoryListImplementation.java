@@ -49,7 +49,7 @@ public class PlayerCharacterRepositoryListImplementation implements PlayerCharac
 	}
 
 	@Override
-	public PlayerCharacter findPlayCharacterById(long playerCharacterId) {
+	public PlayerCharacter findPlayerCharacterById(long playerCharacterId) {
 		if (playerCharacterId < 0 || playerCharacterId >= pcList.size()) {
 			return null;
 		}

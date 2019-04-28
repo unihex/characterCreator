@@ -13,7 +13,7 @@ public interface PlayerCharacterRepository {
 	
 	List<PlayerCharacter> findAllPlayerCharacters();
 	
-	PlayerCharacter findPlayCharacterById(long playerCharacterId);
+	PlayerCharacter findPlayerCharacterById(long playerCharacterId);
 	
 	List<PlayerCharacter> savePlayerCharacterList(List<PlayerCharacter> playerCharacterList);
 	

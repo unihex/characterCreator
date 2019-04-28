@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -85,7 +86,7 @@ public class PlayerCharacterController {
 		
 	@GetMapping(value = "/playerCharacters/{playerCharacterId}")
 	public String viewCharacter(@PathVariable long playerCharacterId, Model model) {		
-		PlayerCharacter pc = pcService.findPlayCharacterById(playerCharacterId);
+		PlayerCharacter pc = pcService.findPlayerCharacterById(playerCharacterId);
 		
 		if (pc == null) {
 			return "doesNotExist";
@@ -125,7 +126,7 @@ public class PlayerCharacterController {
 	
 	@GetMapping(value = "/playerCharacters/{playerCharacterId}/edit")
 	public String toCharacterEdit(@PathVariable long playerCharacterId, Model model) {
-		PlayerCharacter pc = pcService.findPlayCharacterById(playerCharacterId);
+		PlayerCharacter pc = pcService.findPlayerCharacterById(playerCharacterId);
 		
 		if (pc == null) {
 			return "doesNotExist";
@@ -141,7 +142,7 @@ public class PlayerCharacterController {
 	}
 	
 	
-	@PostMapping(value = "/playerCharacters/{playerCharacterId}/save")
+	@PutMapping(value = "/playerCharacters/{playerCharacterId}/save")
 	public String updatePlayCharacter(@PathVariable long playerCharacterId, PlayerCharacter pc, BindingResult bindResult, Model model, RedirectAttributes reAttributes) {		
 		List<String> errorMessages = pcService.validatePlayerCharacter(pc);
 		

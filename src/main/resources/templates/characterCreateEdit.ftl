@@ -32,6 +32,10 @@
 	
 	
 	<form action="${formAction}" method="post">
+	
+		<#if pc.playerCharacterId gte 0>
+			<input type="hidden" name="_method" value="put" />
+		</#if>
 		
 		<div class="pt-2 pb-4">
 			Name <input type="text" name="name" value="${pc.name}" size=20>

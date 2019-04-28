@@ -35,12 +35,12 @@ public class PlayerCharacterServiceImpl implements PlayerCharacterService {
 
 	@Override
 	public List<PlayerCharacter> findAllPlayerCharacters() {
-		return pcRepo.findAllPlayerCharacters();		
+		return pcRepo.findAllPlayerCharacters();
 	}
 
 	@Override
-	public PlayerCharacter findPlayCharacterById(long playerCharacterId) {
-		return pcRepo.findPlayCharacterById(playerCharacterId);
+	public PlayerCharacter findPlayerCharacterById(long playerCharacterId) {
+		return pcRepo.findPlayerCharacterById(playerCharacterId);
 	}
 
 	@Override
