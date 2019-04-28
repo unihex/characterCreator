@@ -30,6 +30,11 @@ public class DataLoader implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		List<PlayerCharacter> playerCharacterList = this.createPlayerCharacterList();
+		pcRepo.savePlayerCharacterList(playerCharacterList);	
+	}
+	
+	public List<PlayerCharacter> createPlayerCharacterList() {
 		List<PlayerCharacter> playerCharacterList = new ArrayList<>();
 		
 		playerCharacterList.add(new PlayerCharacter("Ugoth Ugothal", "Orc", "Druid"));
@@ -58,10 +63,8 @@ public class DataLoader implements ApplicationRunner {
 			equipment.put("Body", Equipment.getRandomEquipmentByType("Body"));
 			equipment.put("Weapon", Equipment.getRandomEquipmentByType("Weapon"));
 			playerCharacter.setEquipment(equipment);
-			
-			pcRepo.savePlayerCharacter(playerCharacter);
-			
-			
-		}	
+		}
+		
+		return playerCharacterList;
 	}
 }

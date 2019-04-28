@@ -27,9 +27,12 @@ public class PlayerCharacter {
 	private Map<String, Equipment> equipment;
 	private Ability ability;
 	
+	private static long negative_counter = -1;
+	
 	
 	public PlayerCharacter() {
-		this.playerCharacterId = -1;
+		this.playerCharacterId = negative_counter;
+		negative_counter--;
 		
 		this.name = "";
 		this.race = "";
@@ -162,5 +165,25 @@ public class PlayerCharacter {
 		return String.format("Player Character [Id=%s, Name=%s, Race=%s, Level=%s, Class=%s]", 
 				this.playerCharacterId, this.name, this.race, this.level, this.characterClass);
 		
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof PlayerCharacter)) {
+			return false;
+		}
+		
+		PlayerCharacter otherPC = (PlayerCharacter) object;
+		
+		if (this.playerCharacterId == otherPC.playerCharacterId) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Long.hashCode(this.playerCharacterId);
 	}
 }
