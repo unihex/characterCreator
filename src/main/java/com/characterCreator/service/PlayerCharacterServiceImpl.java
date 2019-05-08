@@ -16,6 +16,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 
 import com.characterCreator.domain.Ability;
 import com.characterCreator.domain.PlayerCharacter;
+import com.characterCreator.helper.ErrorMessage;
 import com.characterCreator.helper.ExportHelper;
 import com.characterCreator.helper.ImportHelper;
 import com.characterCreator.helper.ParseStringEquipmentMap;
@@ -150,7 +151,7 @@ public class PlayerCharacterServiceImpl implements PlayerCharacterService {
 		String name = playerCharacter.getName();
 		String race = playerCharacter.getRace();
 		String characterClass = playerCharacter.getCharacterClass();
-		String message = "A character's %s can only contain letters numbers and one space";
+		String message = ErrorMessage.getStringInputErrorMessage();
 		long[] stats = playerCharacter.getStats();
 		
 		if (!isValidString(name)) {
@@ -166,12 +167,12 @@ public class PlayerCharacterServiceImpl implements PlayerCharacterService {
 		}
 		
 		if (stats[0] < 1 || stats[0] > 30) {
-			errorMessages.add("A character's level must be between 1 and 30");
+			errorMessages.add(ErrorMessage.getLevelInputErrorMessage());
 		}
 		
 		for (int i = 1; i < stats.length; i++) {
 			if (stats[i] < 1 || stats[i] > 28) {
-				errorMessages.add("All of a character's stats must be between 1 and 28");
+				errorMessages.add(ErrorMessage.getStatInputErrorMessage());
 				break;
 			}
 		}

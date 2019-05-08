@@ -1,21 +1,19 @@
-package service;
+package com.characterCreator.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.characterCreator.domain.PlayerCharacter;
+import com.characterCreator.helper.ErrorMessage;
 import com.characterCreator.loader.DataLoader;
 import com.characterCreator.repository.PlayerCharacterRepository;
-import com.characterCreator.service.PlayerCharacterService;
-import com.characterCreator.service.PlayerCharacterServiceImpl;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.junit.Assert.*;
-
-import java.util.List;
-
-import org.junit.Before;
 
 public class PlayerCharacterServiceImplTest {
 	
@@ -39,7 +37,7 @@ public class PlayerCharacterServiceImplTest {
 		 
 		Mockito.when(pcRepo.findAllPlayerCharacters()).thenReturn(pcListCopy);
 		
-		assertEquals(pcService.findAllPlayerCharacters(), pcList);
+		Assert.assertEquals(pcService.findAllPlayerCharacters(), pcList);
 		Mockito.verify(pcRepo, Mockito.times(1)).findAllPlayerCharacters();
 	}
 	
@@ -49,7 +47,7 @@ public class PlayerCharacterServiceImplTest {
 		 
 		Mockito.when(pcRepo.savePlayerCharacterList(pcListCopy)).thenReturn(pcListCopy);
 		
-		assertEquals(pcService.savePlayerCharacterList(pcList), pcList);
+		Assert.assertEquals(pcService.savePlayerCharacterList(pcList), pcList);
 		Mockito.verify(pcRepo, Mockito.times(1)).savePlayerCharacterList(pcList);
 	}
 	
@@ -63,7 +61,7 @@ public class PlayerCharacterServiceImplTest {
 		
 		Mockito.when(pcRepo.findPlayerCharacterById(pcIdCopy)).thenReturn(pcCopy);
 		
-		assertEquals(pcService.findPlayerCharacterById(pcId), pc);
+		Assert.assertEquals(pcService.findPlayerCharacterById(pcId), pc);
 		Mockito.verify(pcRepo, Mockito.times(1)).findPlayerCharacterById(pcId);
 	}
 	
@@ -74,8 +72,37 @@ public class PlayerCharacterServiceImplTest {
 		
 		Mockito.when(pcRepo.savePlayerCharacter(pcCopy)).thenReturn(pcCopy);
 		
-		assertEquals(pcService.savePlayerCharacter(pc), pc);
+		Assert.assertEquals(pcService.savePlayerCharacter(pc), pc);
 		Mockito.verify(pcRepo, Mockito.times(1)).savePlayerCharacter(pc);
+	}
+	
+	@Test
+	public void verifyValidatePlayerCharacterReturnsErrorMessageIfCharacterHasAnInvalidName() {
+		List<String> errorMessages = new ArrayList<>();
+		String nameErrorMessage = String.format(ErrorMessage.getStringInputErrorMessage(), "name");
+		
+		//test null
+		PlayerCharacter firstPC = pcList.get(0);
+		firstPC.setName(null);
+		errorMessages.addAll(pcService.validatePlayerCharacter(firstPC));
+		
+		//test trailing and leading white spaces
+		PlayerCharacter secondPC = pcList.get(1);
+		secondPC.setName(" Vivian ");
+		errorMessages.addAll(pcService.validatePlayerCharacter(secondPC));
+		
+		//test non alphanumeric
+		PlayerCharacter thirdPC = pcList.get(2);
+		thirdPC.setName("Alpha-5");
+		errorMessages.addAll(pcService.validatePlayerCharacter(thirdPC));
+		
+		//test more than one internal space
+		PlayerCharacter fourthPC = pcList.get(3);
+		fourthPC.setName("Victor von Doom");
+		errorMessages.addAll(pcService.validatePlayerCharacter(fourthPC));
+		
+		Assert.assertEquals(4, errorMessages.size());
+		errorMessages.forEach(s -> Assert.assertEquals(nameErrorMessage, s));
 	}
 	
 	private List<PlayerCharacter> deepCopyPlayCharacterList() throws Exception {
